@@ -36,6 +36,16 @@ export default class TitleScene extends Phaser.Scene {
     this.creditsText = this.add.text(0, 0, 'Credits', { fontSize: '32px', fill: '#fff' });
     this.centerButtonText(this.creditsText, this.creditsButton);
 
+    this.model = this.sys.game.globals.model;
+    
+    if(this.model.musicOn === true  && this.model.bgMusicPlaying === false) {
+      this.model.bgMusicPlaying = true;
+      this.bgMusic = this.sound.add('bgMusic', { volume: 0.5, loop: true });
+      this.bgMusic.play();
+      this.sys.game.globals.bgMusic = this.bgMusic;
+      
+    }
+
     this.creditsButton.on('pointerdown', function (pointer) {
       this.scene.start('Credits');
     }.bind(this));
@@ -47,6 +57,8 @@ export default class TitleScene extends Phaser.Scene {
     this.input.on('pointerout', function (event, gameObjects) {
       gameObjects[0].setTexture('blueButton1');
     });
+
+
   }
 
   centerButton (gameObject, offset = 0) {
